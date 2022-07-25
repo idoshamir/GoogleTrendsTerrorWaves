@@ -21,19 +21,21 @@ periods = loadJsonFile(searchPeriodsFile)
 
 pytrend = TrendReq()
 
-df = pd.DataFrame()
+dfs = []
 
 for p in periods:
     for geo in geos:
         for searchTerm in searchTerms:
             print('"' + p["name"] + '" (' + geo + '): ' + searchTerm)
-            df1 = pytrend.get_historical_interest(searchTerm, year_start=p["year_start"], month_start=p["month_start"], day_start=p["day_start"],
+            curDf = pytrend.get_historical_interest(searchTerm, year_start=p["year_start"], month_start=p["month_start"], day_start=p["day_start"],
                                                 hour_start=p["hour_start"], year_end=p["year_end"], month_end=p["month_end"], day_end=p["day_end"], hour_end=p["hour_end"], cat=0, geo=geo, gprop='', sleep=0)
-            df1['name'] = p["name"]
-            df1['geo'] = geo
-            df1['searchTerm'] = searchTerm
-            df.combine(df1)
+            curDf['name'] = p["name"]
+            curDf['geo'] = geo
+            curDf['searchTerm'] = searchTerm
+            dfs.append(curDf)
             #print(df.to_string())
+
+df = pd.concat(dfs)
 
 df.to_csv(resutlsFile, index=False)
 print('done')
