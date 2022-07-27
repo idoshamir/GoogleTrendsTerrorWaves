@@ -2,57 +2,73 @@
     
     {
         "name": "מהומות בנגב על רקע נטיעות קקל",
-        "year_start": 2022,
-        "month_start": 1,
-        "day_start": 1,
-        "hour_start": 0,
-        "year_end": 2022,
-        "month_end": 1,
-        "day_end": 31,
-        "hour_end": 23
+        "start_date": "2021-12-07",
+        "end_date": "2022-01-07",
+        "period_start_date": "2022-01-01",
+        "period_end_date": "2022-01-31"
+    },
+    {
+        "name": "לאחר מהומות בנגב על רקע נטיעות קקל",
+        "start_date": "2022-02-01",
+        "end_date": "2022-03-01",
+        "period_start_date": "2022-01-01",
+        "period_end_date": "2022-01-31"
     },
     {
         "name": "מבצע שומר החומות",
-        "year_start": 2021,
-        "month_start": 4,
-        "day_start": 9,
-        "hour_start": 0,
-        "year_end": 2021,
-        "month_end": 5,
-        "day_end": 21,
-        "hour_end": 23
+        "start_date": "2021-03-23",
+        "end_date": "2021-04-23",
+        "period_start_date": "2021-04-09",
+        "period_end_date": "2021-05-21"
+    },
+    {
+        "name": "לאחר מבצע שומר החומות",
+        "start_date": "2021-06-01",
+        "end_date": "2021-07-01",
+        "period_start_date": "2021-04-09",
+        "period_end_date": "2021-05-21"
     },
     {
         "name": "טרור עממי",
-        "year_start": 2012,
-        "month_start": 6,
-        "day_start": 1,
-        "hour_start": 0,
-        "year_end": 2013,
-        "month_end": 12,
-        "day_end": 31,
-        "hour_end": 23
+        "start_date": "2012-05-21",
+        "end_date": "2012-06-21",
+        "period_start_date": "2012-06-14",
+        "period_end_date": "2013-12-31"
+    },
+    {
+        "name": "לאחר טרור עממי",
+        "start_date": "2014-01-01",
+        "end_date": "2014-02-01",
+        "period_start_date": "2012-06-14",
+        "period_end_date": "2013-12-31"
     },
     {
         "name": "גל טרור הבודדים",
-        "year_start": 2015,
-        "month_start": 9,
-        "day_start": 1,
-        "hour_start": 0,
-        "year_end": 2016,
-        "month_end": 10,
-        "day_end": 31,
-        "hour_end": 23
+        "start_date": "2015-08-14",
+        "end_date": "2015-09-14",
+        "period_start_date": "2015-09-01",
+        "period_end_date": "2016-10-31"
+    },
+    {
+        "name": "לאחר גל טרור הבודדים",
+        "start_date": "2016-11-01",
+        "end_date": "2016-12-01",
+        "period_start_date": "2015-09-01",
+        "period_end_date": "2016-10-31"
     },
     {
         "name": "אירועי רמצאן 22",
-        "year_start": 2022,
-        "month_start": 3,
-        "day_start": 1,
-        "hour_start": 0,
-        "year_end": 2022,
-        "month_end": 5,
-        "day_end": 31,
-        "hour_end": 23
+        "start_date": "2022-02-29",
+        "end_date": "2022-03-29",
+        "period_start_date": "2022-03-22",
+        "period_end_date": "2022-05-31"
+    },
+    {
+        "name": "לאחר אירועי רמצאן 22",
+        "start_date": "2022-06-01",
+        "end_date": "2022-07-01",
+        "period_start_date": "2022-03-22",
+        "period_end_date": "2022-05-31"
     }
+    
 ]
