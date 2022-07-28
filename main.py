@@ -8,7 +8,7 @@ from pytrends.request import TrendReq
 
 searchTermsFile = 'searchTerms.json'
 searchPeriodsFile = 'searchPeriods.json'
-resutlsFile = 'results.xlsx'
+resutlsFile = 'results3.xlsx'
 
 trendsSleep = 10
 
@@ -36,16 +36,18 @@ for p in periods:
                 curDf['periodName'] = p["name"]
                 curDf['geo'] = geo
                 curDf['searchTerm'] = searchTerm
-                curDf.rename(columns = { searchTerm: 'value'}, inplace=True)
+                curDf.rename(columns = { f'"{[searchTerm]}"': 'value'}, inplace=True)
                 #print(curDf.to_string())
                 curDf.to_pickle(curFilename)
                 dfs.append(curDf)
                 time.sleep(trendsSleep)
             else:
                 curDf = pd.read_pickle(curFilename)
+                curDf.rename(columns = { f'"{[searchTerm]}"': searchTerm}, inplace=True)
                 dfs.append(curDf)
 
 df = pd.concat(dfs)
+df.sort_values(df.columns[0])
 
 df.to_excel(resutlsFile)
 
