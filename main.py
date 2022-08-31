@@ -34,6 +34,9 @@ for p in periods:
         for searchTerm in searchTerms:
             periodStartDate = datetime.strptime(p["period_start_date"], "%Y-%m-%d") + timedelta(days=3)
             periodEndDate = datetime.strptime(p["period_end_date"], "%Y-%m-%d")
+            maxPeriodEndDate = periodStartDate + timedelta(days=30*lookBackMonths)
+            if periodEndDate > maxPeriodEndDate:
+                periodEndDate = maxPeriodEndDate
             while periodStartDate < periodEndDate:
                 startDate = periodStartDate - timedelta(days=30*lookBackMonths)
                 endDate = periodStartDate.strftime("%Y-%m-%d")
