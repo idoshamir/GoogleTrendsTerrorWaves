@@ -38,7 +38,7 @@ for p in periods:
                 startDate = periodStartDate - timedelta(days=30*lookBackMonths)
                 endDate = periodStartDate.strftime("%Y-%m-%d")
                 curFilename = name + ' ' + geo + ' ' + endDate + ' ' + searchTerm + '.pkl'
-                if not os.path.exists(curFilename):
+                if not os.path.exists(curFilename) and not os.path.exists(curFilename+'2'):
                     print('"' + name + '" (' + geo + ') ' + endDate + ': ' + searchTerm)
                     retryNum = 1
                     retryCount = 6
@@ -61,7 +61,10 @@ for p in periods:
                                 raise
                             time.sleep(20)
                 else:
-                    curDf = pd.read_pickle(curFilename)
+                    if os.path.exists(curFilename):
+                        curDf = pd.read_pickle(curFilename)
+                    else:
+                        curDf = pd.read_pickle(curFilename+'2')
                     #curDf.rename(columns = { f'"{[searchTerm]}"': searchTerm}, inplace=True)
                     dfs.append(curDf)
                 periodStartDate = periodStartDate + timedelta(days=1)
