@@ -44,7 +44,7 @@ for p in periods:
                 if not os.path.exists(curFilename) and not os.path.exists(curFilename+'2'):
                     print('"' + name + '" (' + geo + ') ' + endDate + ': ' + searchTerm)
                     retryNum = 1
-                    retryCount = 6
+                    retryCount = 15
                     pytrend.build_payload(kw_list=[f'"{[searchTerm]}"'], geo=geo, timeframe=f'{startDate.strftime("%Y-%m-%d")} {endDate}')
                     while retryNum <= retryCount:
                         try:
