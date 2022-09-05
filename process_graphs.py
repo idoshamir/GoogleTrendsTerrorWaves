@@ -56,7 +56,3 @@ for curFile in pkl2Files:
     score = getPeakScore(curDf)
     if score >= 80:
         rename(curFile, curFile + '2')
-
-pkl2Files = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl22')]
-
-print(len(pkl2Files))
