@@ -69,6 +69,27 @@
         "end_date": "2022-07-01",
         "period_start_date": "2022-06-01",
         "period_end_date": "2022-07-01"
+    },
+    {
+        "name": "עיד אל פיטר",
+        "start_date": "2022-06-01",
+        "end_date": "2022-07-01",
+        "period_start_date": "2021-05-05",
+        "period_end_date": "2021-05-20"
+    },
+    {
+        "name": "מוחרם-ראש השנה ההיגירי",
+        "start_date": "2022-06-01",
+        "end_date": "2022-07-01",
+        "period_start_date": "2021-08-02",
+        "period_end_date": "2021-08-15"
+    },
+    {
+        "name": "יום הולדת הנביא מוחמד",
+        "start_date": "2022-06-01",
+        "end_date": "2022-07-01",
+        "period_start_date": "2021-10-12",
+        "period_end_date": "2021-10-25"
     }
     
 ]

@@ -6,12 +6,14 @@ from bidi import algorithm as bidialg
 import json
 
 searchTermsFile = 'searchTerms.json'
+searchTermsHebrewFile = 'searchTermsHebrew.json'
 
 def loadJsonFile(file):
     with open(file, encoding='utf-8') as f:
         return json.load(f)
 
 searchTerms = loadJsonFile(searchTermsFile)
+searchTermsHebrew = loadJsonFile(searchTermsHebrewFile)
 
 mypath = '.'
 
@@ -55,10 +57,20 @@ for wave in waves:
                         if firstDf:
                             allDf = pd.read_pickle(file)
                             allDf.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
+                            cols = allDf.columns.values.tolist()
+                            for col in cols:
+                                searchTermIndex = searchTerms.index(col)
+                                searchTermHebrew = searchTermsHebrew[searchTermIndex]
+                                allDf.rename(columns={col: bidialg.get_display(col + ' - ' + searchTermHebrew)}, inplace=True)
                             firstDf = False
                         else:
                             df = pd.read_pickle(file)
                             df.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
+                            cols = df.columns.values.tolist()
+                            for col in cols:
+                                searchTermIndex = searchTerms.index(col)
+                                searchTermHebrew = searchTermsHebrew[searchTermIndex]
+                                df.rename(columns={col: bidialg.get_display(col + ' - ' + searchTermHebrew)}, inplace=True)
                             allDf = allDf.join(df)
                         #df.to_excel(fileNoExt + '.xlsx')
                         #print(file)
