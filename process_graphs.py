@@ -43,12 +43,12 @@ def getScore(df):
             maxLastParts = col[i]
     return maxLastParts
 
-#pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl')]
-#for curFile in pklFiles:
-#    curDf = pd.read_pickle(curFile)
-#    score = getScore(curDf)
-#    if isPeakAtEnd(curDf) and score >= 80:
-#        rename(curFile, curFile + '2')
+pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl')]
+for curFile in pklFiles:
+    curDf = pd.read_pickle(curFile)
+    score = getScore(curDf)
+    if isPeakAtEnd(curDf) and score >= 80:
+        rename(curFile, curFile + '2')
 
 pkl2Files = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl2')]
 for curFile in pkl2Files:

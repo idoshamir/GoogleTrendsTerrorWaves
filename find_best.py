@@ -1,6 +1,17 @@
 import pandas as pd
 from os import listdir
 from os.path import isfile, join
+import matplotlib.pyplot as plt
+from bidi import algorithm as bidialg
+import json
+
+searchTermsFile = 'searchTerms.json'
+
+def loadJsonFile(file):
+    with open(file, encoding='utf-8') as f:
+        return json.load(f)
+
+searchTerms = loadJsonFile(searchTermsFile)
 
 mypath = '.'
 
@@ -17,8 +28,9 @@ for file in pkl2Files:
     if waveName not in result:
         result[waveName] = {}
     if day not in result[waveName]:
-        result[waveName][day] = [] 
-    result[waveName][day].append(searchTerm)
+        result[waveName][day] = []
+    if searchTerm in searchTerms:
+        result[waveName][day].append(searchTerm)
 
 waves = list(result.keys())
 wavesUsed = set()
@@ -27,17 +39,30 @@ for wave in waves:
     maxWords = -1
     for day in days:
         length = len(result[wave][day])
-        if length > maxWords:
+        if length > maxWords and length > 1:
             maxWords = length
-    for day in days:
-        length = len(result[wave][day])
-        if length == maxWords:
-            if wave not in wavesUsed:
-                wirds = result[wave][day]
-                for word in wirds:
-                    fileNoExt = wave + ' IL ' + day + ' ' + word
-                    file = fileNoExt + '.pkl22'
-                    df = pd.read_pickle(file)
-                    df.to_excel(fileNoExt + '.xlsx')
-                    print(file)
-                wavesUsed.add(wave)
+    if maxWords > 1:
+        for day in days:
+            length = len(result[wave][day])
+            if length == maxWords:
+                if wave not in wavesUsed:
+                    words = result[wave][day]
+                    allDf = None
+                    firstDf = True
+                    for word in words:
+                        fileNoExt = wave + ' IL ' + day + ' ' + word
+                        file = fileNoExt + '.pkl22'
+                        if firstDf:
+                            allDf = pd.read_pickle(file)
+                            allDf.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
+                            firstDf = False
+                        else:
+                            df = pd.read_pickle(file)
+                            df.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
+                            allDf = allDf.join(df)
+                        #df.to_excel(fileNoExt + '.xlsx')
+                        #print(file)
+                    text = bidialg.get_display(wave)
+                    allDf.plot(title=text)
+                    plt.show()
+                    wavesUsed.add(wave)
