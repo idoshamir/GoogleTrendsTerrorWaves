@@ -1,11 +1,18 @@
 import pandas as pd
 from os import listdir
 from os.path import isfile, join
-from os import rename
+from os import rename,remove
 from scipy.signal import find_peaks,peak_prominences
-
+from os.path import exists
 
 mypath = '.'
+
+peakCutOff = 70
+
+def countBeforePeak(df, score):
+    col = list(df.iloc[:, 0])[:-5]
+    filtered = list(filter(lambda x: x >= score, col)) 
+    return len(filtered)
 
 def isPeakAtEnd(df):
     col = df.iloc[:, 0]
@@ -43,16 +50,25 @@ def getScore(df):
             maxLastParts = col[i]
     return maxLastParts
 
+# back to pkl files
+pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and (f.endswith('.pkl2') or f.endswith('.pkl22'))]
+for curFile in pklFiles:
+    oldFile = curFile.replace('.pkl22','.pkl').replace('.pkl2','.pkl')
+    if exists(oldFile):
+        remove(curFile)
+    else:
+        rename(curFile, oldFile)
+
 pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl')]
 for curFile in pklFiles:
     curDf = pd.read_pickle(curFile)
     score = getScore(curDf)
-    if isPeakAtEnd(curDf) and score >= 80:
+    if isPeakAtEnd(curDf) and score >= peakCutOff and countBeforePeak(curDf, peakCutOff) < 2:
         rename(curFile, curFile + '2')
 
 pkl2Files = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl2')]
 for curFile in pkl2Files:
     curDf = pd.read_pickle(curFile)
     score = getPeakScore(curDf)
-    if score >= 80:
+    if score >= peakCutOff:
         rename(curFile, curFile + '2')
