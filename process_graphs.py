@@ -9,6 +9,7 @@ mypath = '.'
 
 peakCutOff = 90
 maxNumberOfPeaksBeforeTail = 1
+daysOfTail = 3
 
 def countBeforePeak(df, score):
     col = list(df.iloc[:, 0])[:-5]
@@ -19,14 +20,22 @@ def isPeakAtEnd(df):
     col = df.iloc[:, 0]
     peaks = list(find_peaks(col)[0])
     lastIndex = len(col)-1
-    lastParts = set([lastIndex, lastIndex-1, lastIndex-2, lastIndex-3, lastIndex-4])
-    found = [a for a in peaks if a in lastParts]
+    lastParts = []
+    i = daysOfTail
+    while i > 0:
+        lastParts = [lastIndex-i]
+        i -= 1
+    found = [a for a in peaks if a in set(lastParts)]
     return len(found) > 0
 
 def getPeakScore(df):
     col = df.iloc[:, 0]
     lastIndex = len(col)-1
-    lastParts = [lastIndex, lastIndex-1, lastIndex-2, lastIndex-3, lastIndex-4]
+    lastParts = []
+    i = daysOfTail
+    while i > 0:
+        lastParts = [lastIndex-i]
+        i -= 1
     peaks, _ = find_peaks(col)
     prominences = list(peak_prominences(col, peaks)[0])
     peaksList = list(peaks)
@@ -44,7 +53,11 @@ def getPeakScore(df):
 def getScore(df):
     col = df.iloc[:, 0]
     lastIndex = len(col)-1
-    lastParts = [lastIndex, lastIndex-1, lastIndex-2, lastIndex-3, lastIndex-4]
+    lastParts = []
+    i = daysOfTail
+    while i > 0:
+        lastParts = [lastIndex-i]
+        i -= 1
     maxLastParts = -1
     for i in lastParts:
         if col[i] > maxLastParts:
