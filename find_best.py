@@ -8,6 +8,8 @@ import json
 searchTermsFile = 'searchTerms.json'
 searchTermsHebrewFile = 'searchTermsHebrew.json'
 
+minNumberOfWords = 3
+
 def loadJsonFile(file):
     with open(file, encoding='utf-8') as f:
         return json.load(f)
@@ -43,7 +45,7 @@ for wave in waves:
         length = len(result[wave][day])
         if length > maxWords and length > 1:
             maxWords = length
-    if maxWords > 1:
+    if maxWords >= minNumberOfWords:
         for day in days:
             length = len(result[wave][day])
             if length == maxWords:

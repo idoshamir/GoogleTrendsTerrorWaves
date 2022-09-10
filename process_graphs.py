@@ -7,12 +7,12 @@ from os.path import exists
 
 mypath = '.'
 
-peakCutOff = 90
-maxNumberOfPeaksBeforeTail = 1
+peakCutOff = 70
+maxNumberOfPeaksBeforeTail = 3
 daysOfTail = 3
 
 def countBeforePeak(df, score):
-    col = list(df.iloc[:, 0])[:-5]
+    col = list(df.iloc[:, 0])[:-daysOfTail]
     filtered = list(filter(lambda x: x >= score, col)) 
     return len(filtered)
 
