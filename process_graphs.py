@@ -7,7 +7,8 @@ from os.path import exists
 
 mypath = '.'
 
-peakCutOff = 70
+peakCutOff = 90
+maxNumberOfPeaksBeforeTail = 1
 
 def countBeforePeak(df, score):
     col = list(df.iloc[:, 0])[:-5]
@@ -63,7 +64,7 @@ pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith
 for curFile in pklFiles:
     curDf = pd.read_pickle(curFile)
     score = getScore(curDf)
-    if isPeakAtEnd(curDf) and score >= peakCutOff and countBeforePeak(curDf, peakCutOff) < 2:
+    if isPeakAtEnd(curDf) and score >= peakCutOff and countBeforePeak(curDf, peakCutOff) <= maxNumberOfPeaksBeforeTail:
         rename(curFile, curFile + '2')
 
 pkl2Files = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl2')]
