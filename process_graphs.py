@@ -5,7 +5,6 @@ from os import listdir
 from os.path import isfile, join
 #from os import rename,remove
 from scipy.signal import find_peaks,peak_prominences
-import matplotlib.pyplot as plt
 from bidi import algorithm as bidialg
 import json
 from os.path import exists
@@ -187,34 +186,34 @@ def getTerrorWaves(peakCutOff, maxNumberOfPeaksBeforeTail, daysOfTail, minTailAv
                 length = len(result[wave][day])
                 if length == maxWords:
                     if wave not in wavesUsed:
-                        words = result[wave][day]
-                        allDf = None
-                        firstDf = True
-                        for word in words:
-                            fileNoExt = wave + ' IL ' + day + ' ' + word
-                            file = fileNoExt + '.pkl'
-                            if firstDf:
-                                allDf = pd.read_pickle(file)
-                                allDf.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
-                                cols = allDf.columns.values.tolist()
-                                for col in cols:
-                                    searchTermIndex = searchTerms.index(col)
-                                    searchTermHebrew = searchTermsHebrew[searchTermIndex]
-                                    allDf.rename(columns={col: bidialg.get_display(col + ' - ' + searchTermHebrew)}, inplace=True)
-                                firstDf = False
-                            else:
-                                df = pd.read_pickle(file)
-                                df.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
-                                cols = df.columns.values.tolist()
-                                for col in cols:
-                                    searchTermIndex = searchTerms.index(col)
-                                    searchTermHebrew = searchTermsHebrew[searchTermIndex]
-                                    df.rename(columns={col: bidialg.get_display(col + ' - ' + searchTermHebrew)}, inplace=True)
-                                allDf = allDf.join(df)
+                        # words = result[wave][day]
+                        # allDf = None
+                        # firstDf = True
+                        # for word in words:
+                        #     fileNoExt = wave + ' IL ' + day + ' ' + word
+                        #     file = fileNoExt + '.pkl'
+                        #     if firstDf:
+                        #         allDf = pd.read_pickle(file)
+                        #         allDf.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
+                        #         cols = allDf.columns.values.tolist()
+                        #         for col in cols:
+                        #             searchTermIndex = searchTerms.index(col)
+                        #             searchTermHebrew = searchTermsHebrew[searchTermIndex]
+                        #             allDf.rename(columns={col: bidialg.get_display(col + ' - ' + searchTermHebrew)}, inplace=True)
+                        #         firstDf = False
+                        #     else:
+                        #         df = pd.read_pickle(file)
+                        #         df.drop(['isPartial', 'periodName', 'geo', 'searchTerm'], inplace=True, axis=1)
+                        #         cols = df.columns.values.tolist()
+                        #         for col in cols:
+                        #             searchTermIndex = searchTerms.index(col)
+                        #             searchTermHebrew = searchTermsHebrew[searchTermIndex]
+                        #             df.rename(columns={col: bidialg.get_display(col + ' - ' + searchTermHebrew)}, inplace=True)
+                        #         allDf = allDf.join(df)
                             #df.to_excel(fileNoExt + '.xlsx')
                             #print(file)
-                        text = bidialg.get_display(wave)
-                        allDf.plot(title=text)
+                        #text = bidialg.get_display(wave)
+                        #allDf.plot(title=text)
                         #plt.show()
                         wavesUsed.add(wave)
                         res.append(wave)
@@ -238,7 +237,7 @@ for peakCutOff in peakCutOffs:
                 for maxNonTailAverage in maxNonTailAverages:
                     for minNumberOfWords in minNumberOfWordsArr:
                         retryNum = 0
-                        file = f'{peakCutOff};{maxNumberOfPeaksBeforeTail};{daysOfTail};{minTailAverage};{maxNonTailAverage};{minNumberOfWords}.txt'
+                        file = f'./tryouts/{peakCutOff};{maxNumberOfPeaksBeforeTail};{daysOfTail};{minTailAverage};{maxNonTailAverage};{minNumberOfWords}.txt'
                         matchedWaves = None
                         if exists(file):
                             file = open(file, "r")
@@ -251,10 +250,11 @@ for peakCutOff in peakCutOffs:
                                 f.write(str(matchedWaves))
                                 f.close()
                             except:
+                                print('retry')
                                 retryNum += 1
                                 if retryNum > retryCount:
                                    raise
-                                time.sleep(20)
+                                time.sleep(60)
                         terrorWavesFound = list(filter(lambda x: x in terrorNamesSet, matchedWaves))
                         terrorWavesFoundCount = len(terrorWavesFound)
                         nonTerrorWavesCount = 13 - terrorWavesFoundCount
