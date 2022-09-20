@@ -221,7 +221,7 @@ for peakCutOff in peakCutOffs:
                                 time.sleep(60)
                         terrorWavesFound = list(filter(lambda x: x in terrorNamesSet, matchedWaves))
                         terrorWavesFoundCount = len(terrorWavesFound)
-                        nonTerrorWavesCount = 13 - len(matchedWaves)
+                        nonTerrorWavesCount = len(matchedWaves) - terrorWavesFoundCount
                         if terrorWavesFoundCount >= maxTerrorWavesFoundCount:
                             if nonTerrorWavesCount <= minNotTerrorWavesCount:
                                 maxTerrorWavesFoundCount = terrorWavesFoundCount
