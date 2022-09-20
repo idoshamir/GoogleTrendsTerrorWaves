@@ -21,11 +21,15 @@ mypath = '.'
 #minNumberOfWords = 3
 
 peakCutOffs = range(80,101)
-maxNumberOfPeaksBeforeTails = range(0,4)
+maxNumberOfPeaksBeforeTails = range(2,3)
 daysOfTails = range(1,6)
 minTailAverages = range(80,101)
-maxNonTailAverages = range(0,31)
-minNumberOfWordsArr = range(2,6)
+maxNonTailAverages = range(30,31)
+minNumberOfWordsArr = range(3,4)
+#maxNumberOfPeaksBeforeTails = range(0,4)
+#minTailAverages = range(80,101)
+#maxNonTailAverages = range(0,31)
+#minNumberOfWordsArr = range(2,6)
 
 terrorNames = [
     "מהומות בנגב על רקע נטיעות קקל",
@@ -46,58 +50,30 @@ def loadJsonFile(file):
 searchTerms = loadJsonFile(searchTermsFile)
 searchTermsHebrew = loadJsonFile(searchTermsHebrewFile)
 
-def countBeforePeak(df, score, daysOfTail):
-    col = list(df.iloc[:, 0])[:-daysOfTail]
+def countBeforePeak(col, score, daysOfTail):
+    col = list(col)[:-daysOfTail]
     filtered = list(filter(lambda x: x >= score, col)) 
     return len(filtered)
 
-def isPeakAtEnd(df, daysOfTail):
-    col = df.iloc[:, 0]
+def isPeakAtEnd(col, lastParts):
     peaks = list(find_peaks(col)[0])
-    lastIndex = len(col)-1
-    lastParts = []
-    i = daysOfTail
-    while i > 0:
-        lastParts = [lastIndex-i]
-        i -= 1
     found = [a for a in peaks if a in set(lastParts)]
     return len(found) > 0
 
-def getAverageTail(df, daysOfTail):
-    col = df.iloc[:, 0]
-    lastIndex = len(col)-1
-    lastParts = []
-    i = daysOfTail
-    while i > 0:
-        lastParts = [lastIndex-i]
-        i -= 1
+def getAverageTail(col, lastParts):
     sum = 0
     for i in lastParts:
         sum += col[i]
     return sum/len(lastParts)
 
-def getAverageNonTail(df, daysOfTail):
-    col = df.iloc[:, 0]
-    lastIndex = len(col)-1
-    lastParts = []
-    i = daysOfTail
-    while i > 0:
-        lastParts = [lastIndex-i]
-        i -= 1
+def getAverageNonTail(col, lastParts):
     sum = 0
     for i in range(len(col)):
         if i not in lastParts:
             sum += col[i]
     return sum/(len(col)-len(lastParts))
 
-def getPeakScore(df, daysOfTail):
-    col = df.iloc[:, 0]
-    lastIndex = len(col)-1
-    lastParts = []
-    i = daysOfTail
-    while i > 0:
-        lastParts = [lastIndex-i]
-        i -= 1
+def getPeakScore(col, lastParts):
     peaks, _ = find_peaks(col)
     prominences = list(peak_prominences(col, peaks)[0])
     peaksList = list(peaks)
@@ -112,14 +88,7 @@ def getPeakScore(df, daysOfTail):
             i += 1
     return maxLastParts
 
-def getMaxAtTail(df, daysOfTail):
-    col = df.iloc[:, 0]
-    lastIndex = len(col)-1
-    lastParts = []
-    i = daysOfTail
-    while i > 0:
-        lastParts = [lastIndex-i]
-        i -= 1
+def getMaxAtTail(col, lastParts):
     maxLastParts = -1
     for i in lastParts:
         if col[i] > maxLastParts:
@@ -141,7 +110,14 @@ def getTerrorWaves(peakCutOff, maxNumberOfPeaksBeforeTail, daysOfTail, minTailAv
     pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl')]
     for curFile in pklFiles:
         curDf = pd.read_pickle(curFile)
-        if getMaxAtTail(curDf, daysOfTail) >= peakCutOff and isPeakAtEnd(curDf, daysOfTail) and countBeforePeak(curDf, peakCutOff, daysOfTail) <= maxNumberOfPeaksBeforeTail and getPeakScore(curDf, daysOfTail) >= peakCutOff and getAverageTail(curDf, daysOfTail) >= minTailAverage and getAverageNonTail(curDf, daysOfTail) <= maxNonTailAverage:
+        col = curDf.iloc[:, 0]
+        lastIndex = len(col)-1
+        lastParts = []
+        i = daysOfTail
+        while i > 0:
+            lastParts = [lastIndex-i]
+            i -= 1
+        if getMaxAtTail(col, lastParts) >= peakCutOff and isPeakAtEnd(col, lastParts) and countBeforePeak(col, peakCutOff, daysOfTail) <= maxNumberOfPeaksBeforeTail and getPeakScore(col, lastParts) >= peakCutOff and getAverageTail(col, lastParts) >= minTailAverage and getAverageNonTail(col, lastParts) <= maxNonTailAverage:
             pkl22Files.append(curFile)
 
     result = {}
