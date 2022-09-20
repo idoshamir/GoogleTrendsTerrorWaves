@@ -141,16 +141,8 @@ def getTerrorWaves(peakCutOff, maxNumberOfPeaksBeforeTail, daysOfTail, minTailAv
     pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl')]
     for curFile in pklFiles:
         curDf = pd.read_pickle(curFile)
-        maxAtTail = getMaxAtTail(curDf, daysOfTail)
-        if maxAtTail >= peakCutOff:
-            if isPeakAtEnd(curDf, daysOfTail) and countBeforePeak(curDf, peakCutOff, daysOfTail) <= maxNumberOfPeaksBeforeTail:
-                maxAtTail = getPeakScore(curDf, daysOfTail)
-                if maxAtTail >= peakCutOff:
-                    avgTail = getAverageTail(curDf, daysOfTail)
-                    if avgTail >= minTailAverage:
-                        avgNonTail = getAverageNonTail(curDf, daysOfTail)
-                        if avgNonTail <= maxNonTailAverage:
-                            pkl22Files.append(curFile)
+        if getMaxAtTail(curDf, daysOfTail) >= peakCutOff and isPeakAtEnd(curDf, daysOfTail) and countBeforePeak(curDf, peakCutOff, daysOfTail) <= maxNumberOfPeaksBeforeTail and getPeakScore(curDf, daysOfTail) >= peakCutOff and getAverageTail(curDf, daysOfTail) >= minTailAverage and getAverageNonTail(curDf, daysOfTail) <= maxNonTailAverage:
+            pkl22Files.append(curFile)
 
     result = {}
 
@@ -244,6 +236,7 @@ for peakCutOff in peakCutOffs:
                                 f = open(file, "w+")
                                 f.write(str(matchedWaves))
                                 f.close()
+                                time.sleep(1)
                             except:
                                 print('retry')
                                 retryNum += 1
