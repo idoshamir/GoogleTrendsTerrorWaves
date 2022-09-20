@@ -21,11 +21,11 @@ mypath = '.'
 #minNumberOfWords = 3
 
 peakCutOffs = range(80,101)
-maxNumberOfPeaksBeforeTails = range(2,3)
-daysOfTails = range(1,6)
+maxNumberOfPeaksBeforeTails = range(0,3)
+daysOfTails = range(1,7)
 minTailAverages = range(60,101)
 maxNonTailAverages = range(20,31)
-minNumberOfWordsArr = range(3,4)
+minNumberOfWordsArr = range(2,4)
 #maxNumberOfPeaksBeforeTails = range(0,4)
 #minTailAverages = range(80,101)
 #maxNonTailAverages = range(0,31)
