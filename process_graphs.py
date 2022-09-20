@@ -23,8 +23,8 @@ mypath = '.'
 peakCutOffs = range(80,101)
 maxNumberOfPeaksBeforeTails = range(2,3)
 daysOfTails = range(1,6)
-minTailAverages = range(80,101)
-maxNonTailAverages = range(30,31)
+minTailAverages = range(60,101)
+maxNonTailAverages = range(20,31)
 minNumberOfWordsArr = range(3,4)
 #maxNumberOfPeaksBeforeTails = range(0,4)
 #minTailAverages = range(80,101)
@@ -221,7 +221,7 @@ for peakCutOff in peakCutOffs:
                                 time.sleep(60)
                         terrorWavesFound = list(filter(lambda x: x in terrorNamesSet, matchedWaves))
                         terrorWavesFoundCount = len(terrorWavesFound)
-                        nonTerrorWavesCount = 13 - terrorWavesFoundCount
+                        nonTerrorWavesCount = 13 - len(matchedWaves)
                         if terrorWavesFoundCount >= maxTerrorWavesFoundCount:
                             if nonTerrorWavesCount <= minNotTerrorWavesCount:
                                 maxTerrorWavesFoundCount = terrorWavesFoundCount
