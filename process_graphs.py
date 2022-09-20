@@ -137,26 +137,21 @@ def getMaxAtTail(df, daysOfTail):
 
 def getTerrorWaves(peakCutOff, maxNumberOfPeaksBeforeTail, daysOfTail, minTailAverage, maxNonTailAverage, minNumberOfWords):
     res = []
-    pkl2Files = []
+    pkl22Files = []
     pklFiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl')]
     for curFile in pklFiles:
         curDf = pd.read_pickle(curFile)
         maxAtTail = getMaxAtTail(curDf, daysOfTail)
-        if isPeakAtEnd(curDf, daysOfTail) and maxAtTail >= peakCutOff and countBeforePeak(curDf, peakCutOff, daysOfTail) <= maxNumberOfPeaksBeforeTail:
-            pkl2Files.append(curFile)
-            #rename(curFile, curFile + '2')
-    pkl22Files = []
-    #pkl2Files = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl2')]
-    for curFile in pkl2Files:
-        curDf = pd.read_pickle(curFile)
-        maxAtTail = getPeakScore(curDf, daysOfTail)
-        avgTail = getAverageTail(curDf, daysOfTail)
-        avgNonTail = getAverageNonTail(curDf, daysOfTail)
-        if maxAtTail >= peakCutOff and avgTail >= minTailAverage and avgNonTail <= maxNonTailAverage:
-            pkl22Files.append(curFile)
-            #rename(curFile, curFile + '2')
+        if maxAtTail >= peakCutOff:
+            if isPeakAtEnd(curDf, daysOfTail) and countBeforePeak(curDf, peakCutOff, daysOfTail) <= maxNumberOfPeaksBeforeTail:
+                maxAtTail = getPeakScore(curDf, daysOfTail)
+                if maxAtTail >= peakCutOff:
+                    avgTail = getAverageTail(curDf, daysOfTail)
+                    if avgTail >= minTailAverage:
+                        avgNonTail = getAverageNonTail(curDf, daysOfTail)
+                        if avgNonTail <= maxNonTailAverage:
+                            pkl22Files.append(curFile)
 
-    #pkl2Files = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith('.pkl22')]
     result = {}
 
     for file in pkl22Files:
