@@ -223,8 +223,10 @@ for peakCutOff in peakCutOffs:
                         terrorWavesFoundCount = len(terrorWavesFound)
                         nonTerrorWavesCount = len(matchedWaves) - terrorWavesFoundCount
                         if terrorWavesFoundCount >= maxTerrorWavesFoundCount:
-                            if nonTerrorWavesCount <= minNotTerrorWavesCount:
+                            if terrorWavesFoundCount > maxTerrorWavesFoundCount:
                                 maxTerrorWavesFoundCount = terrorWavesFoundCount
+                                minNotTerrorWavesCount = 100000000
+                            if nonTerrorWavesCount <= minNotTerrorWavesCount:
                                 minNotTerrorWavesCount = nonTerrorWavesCount
                                 bestPeakCutOff = peakCutOff
                                 bestMaxNumberOfPeaksBeforeTail = maxNumberOfPeaksBeforeTail
