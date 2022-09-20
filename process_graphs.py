@@ -236,7 +236,7 @@ for peakCutOff in peakCutOffs:
                                 f = open(file, "w+")
                                 f.write(str(matchedWaves))
                                 f.close()
-                                time.sleep(1)
+                                time.sleep(0.5)
                             except:
                                 print('retry')
                                 retryNum += 1
