@@ -20,12 +20,12 @@ mypath = '.'
 #maxNonTailAverage = 30
 #minNumberOfWords = 3
 
-peakCutOffs = range(80,100)
-maxNumberOfPeaksBeforeTails = range(0,3)
-daysOfTails = range(1,5)
-minTailAverages = range(80,100)
-maxNonTailAverages = range(0,30)
-minNumberOfWordsArr = range(2,5)
+peakCutOffs = range(80,101)
+maxNumberOfPeaksBeforeTails = range(0,4)
+daysOfTails = range(1,6)
+minTailAverages = range(80,101)
+maxNonTailAverages = range(0,31)
+minNumberOfWordsArr = range(2,6)
 
 terrorNames = [
     "מהומות בנגב על רקע נטיעות קקל",
