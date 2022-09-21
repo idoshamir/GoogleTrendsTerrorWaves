@@ -31,6 +31,11 @@ minNumberOfWordsArr = range(2,4)
 #maxNonTailAverages = range(0,31)
 #minNumberOfWordsArr = range(2,6)
 
+totalOptions = len(peakCutOffs)*len(maxNumberOfPeaksBeforeTails)*len(daysOfTails)*len(minTailAverages)*len(maxNonTailAverages)*len(minNumberOfWordsArr)
+
+print(f'will create {totalOptions} files')
+time.sleep(3)
+
 terrorNames = [
     "מהומות בנגב על רקע נטיעות קקל",
     "מבצע שומר החומות",
